@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:25:36 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/22 05:43:50 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/22 06:06:49 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,5 @@ void	parse_input(t_table *table, char **av)
 		table->nbr_philo_must_eat = ft_atol(av[5]);
 	else
 		table->nbr_philo_must_eat = -1;
-
-
 }
 

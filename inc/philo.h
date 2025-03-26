@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/22 05:15:15 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/26 13:16:20 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,21 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+#include <errno.h>
 #include <limits.h>
 
 typedef	struct s_table t_table;
+
+typedef enum e_type
+{
+	M_INIT,
+	M_LOCK,
+	M_UNLOCK,
+	M_DESTROY,
+	T_CREATE,
+	T_DETACH,
+	T_JOIN
+}		t_type;
 
 typedef struct	s_fork
 {
@@ -56,6 +68,7 @@ typedef	struct s_table
 void	parse_input(t_table *table, char **av);
 
 void	error_msg(char *str);
+void	*safe_malloc(size_t bytes);
 int		ft_strlen(const char *str);
 
 #endif
