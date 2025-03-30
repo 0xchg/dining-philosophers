@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/26 13:16:20 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 20:00:49 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef	struct s_table
 	t_philo	*philos;
 }		t_table;
 
-
+void	safe_mutex_handle(t_mtx *mutex, t_type mutex_type);
 void	parse_input(t_table *table, char **av);
 
 void	error_msg(char *str);

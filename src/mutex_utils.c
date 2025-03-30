@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 04:18:11 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/26 14:54:47 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 19:59:33 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,23 @@ void	handle_mutex_error(int status, t_type mutex_type)
 	else if (status == EDEADLK)
 		error_msg("A dead lock would occur if the thread blocked waiting for mutex\n");
 	else if (status == EBUSY)
-		error_msg("");
-	else if (status == )
-		;
+		error_msg("Mutex is locked\n");
+	else if (status == EPERM)
+		error_msg("The current thread does not hold a lock on mutex.\n");
+	else if (status == ENOMEM)
+		error_msg("The process cannot allocate enough memory to create another mutex.\n");
 }
 
-void	mutex_handler(t_mtx *mutex, t_type mutex_type)
+void	safe_mutex_handle(t_mtx *mutex, t_type mutex_type)
 {
 	if (M_INIT == mutex_type)
-		pthread_mutex_init(mutex, NULL);
+		handle_mutex_error(pthread_mutex_init(mutex, NULL), mutex_type);
 	else if (M_LOCK == mutex_type)
-		pthread_mutex_lock(mutex);
+		handle_mutex_error(pthread_mutex_lock(mutex), mutex_type);
 	else if (M_UNLOCK == mutex_type)
-		pthread_mutex_unlock(mutex);
+		handle_mutex_error(pthread_mutex_unlock(mutex), mutex_type);
 	else if (M_DESTROY == mutex_type)
-		pthread_mutex_destroy(mutex);
+		handle_mutex_error(pthread_mutex_destroy(mutex), mutex_type);
 	else
 		error_msg("Wrong mutex_type\n");
 }

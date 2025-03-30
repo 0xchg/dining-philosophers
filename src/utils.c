@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:19:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/26 13:15:04 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 20:12:41 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	error_msg(char *str)
 {
-	printf("%s\n", str);
+	write(2, str, ft_strlen(str));
 	exit(EXIT_FAILURE);
 }
 
-int	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	int	counter;
+	size_t	counter;
 
 	counter = 0;
 	while (*str++)
