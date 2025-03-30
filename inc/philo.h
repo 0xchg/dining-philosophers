@@ -6,23 +6,23 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/30 20:00:49 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 20:37:59 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <sys/time.h>
 
-#include <errno.h>
-#include <limits.h>
+# include <errno.h>
+# include <limits.h>
 
-typedef	struct s_table t_table;
+typedef struct s_table	t_table;
 
 typedef enum e_type
 {
@@ -35,7 +35,7 @@ typedef enum e_type
 	T_JOIN
 }		t_type;
 
-typedef struct	s_fork
+typedef struct s_fork
 {
 	pthread_mutex_t	fork;
 	int				fork_id;
@@ -52,7 +52,7 @@ typedef struct s_philo
 	t_table		*table;
 }				t_philo;
 
-typedef	struct s_table
+typedef struct s_table
 {
 	long	nbr_of_philo;
 	long	time_to_die;
@@ -65,6 +65,8 @@ typedef	struct s_table
 }		t_table;
 
 void	safe_mutex_handle(t_mtx *mutex, t_type mutex_type);
+void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
+			void *data, t_type thread_type);
 void	parse_input(t_table *table, char **av);
 
 void	error_msg(char *str);

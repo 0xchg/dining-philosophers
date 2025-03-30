@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:14:44 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/22 06:07:06 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 20:50:28 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ int	main(int ac, char **av)
 	}
 	else
 		error_msg("Error: wrong number of args. Ex.: 5 800 200 200 [5]");
-	return(0);
+	return (0);
 }

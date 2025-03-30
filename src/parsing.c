@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:25:36 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/22 06:06:49 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/03/30 20:49:30 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ static int	ft_isdigit(char c)
 		return (1);
 	return (0);
 }
+
 static int	ft_isspace(char c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
+
 long	ft_atol(const char *str)
 {
 	long	number;
@@ -61,4 +63,3 @@ void	parse_input(t_table *table, char **av)
 	else
 		table->nbr_philo_must_eat = -1;
 }
-
