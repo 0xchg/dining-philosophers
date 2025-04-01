@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/30 20:37:59 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:30:18 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-
+# include <stdbool.h>
 # include <errno.h>
 # include <limits.h>
 
-typedef struct s_table	t_table;
+typedef struct s_data	t_data;
 
 typedef enum e_type
 {
@@ -44,30 +44,35 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int			id;
-	long		meals_counter;
-	long		last_meal_time;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
-	pthread_t	thread_id;
-	t_table		*table;
+	long		n_meals;
+	bool 		full;
+	long		t_last_meal;
+	t_fork		*l_fork;
+	t_fork		*r_fork;
+	pthread_t	thread;
+	t_data		*data;
 }				t_philo;
 
-typedef struct s_table
+typedef struct s_data
 {
-	long	nbr_of_philo;
+	long	n_philo;
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
-	long	nbr_philo_must_eat;
+	long	n_must_eat;
 	long	start_simulation;
+	bool	end_simulation;
+	bool	all_t_sync;
+	pthread_mutex_t	table_mutex;
 	t_fork	*forks;
 	t_philo	*philos;
-}		t_table;
+}		t_data;
 
-void	safe_mutex_handle(t_mtx *mutex, t_type mutex_type);
+void	safe_mutex_handle(pthread_mutex_t *mutex, t_type mutex_type);
 void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
 			void *data, t_type thread_type);
-void	parse_input(t_table *table, char **av);
+void	parse_input(t_data *data, char **av);
+void	initialize_data(t_data *data);
 
 void	error_msg(char *str);
 void	*safe_malloc(size_t bytes);

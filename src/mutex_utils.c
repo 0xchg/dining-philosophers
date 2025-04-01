@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 04:18:11 by mchingi           #+#    #+#             */
-/*   Updated: 2025/03/30 20:48:41 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:30:18 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	handle_mutex_error(int status, t_type mutex_type)
 			" create another mutex.\n");
 }
 
-void	safe_mutex_handle(t_mtx *mutex, t_type mutex_type)
+void	safe_mutex_handle(pthread_mutex_t *mutex, t_type mutex_type)
 {
 	if (M_INIT == mutex_type)
 		handle_mutex_error(pthread_mutex_init(mutex, NULL), mutex_type);

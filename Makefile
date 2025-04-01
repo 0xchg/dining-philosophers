@@ -6,7 +6,7 @@
 #    By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/22 00:06:28 by mchingi           #+#    #+#              #
-#    Updated: 2025/03/26 12:43:28 by mchingi          ###   ########.fr        #
+#    Updated: 2025/04/01 14:39:10 by mchingi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ TFLAGS = -pthread
 RM = @rm -f
 
 SRCS = ./src/parsing.c ./src/main.c ./src/utils.c \
-		./src/init_simulation.c
+		./src/start_simulation.c ./src/mutex_utils.c \
+		./src/thread_utils.c initialize_data.c 
 
 OBJS = $(SRCS:.c=.o)
 
