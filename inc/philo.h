@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 15:30:18 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/01 22:07:55 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ typedef enum e_type
 	T_DETACH,
 	T_JOIN
 }		t_type;
+
+typedef enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED
+}		t_philo_status;
 
 typedef struct s_fork
 {
@@ -64,6 +74,7 @@ typedef struct s_data
 	bool	end_simulation;
 	bool	all_t_sync;
 	pthread_mutex_t	table_mutex;
+	pthread_mutex_t	write_mutex;
 	t_fork	*forks;
 	t_philo	*philos;
 }		t_data;
@@ -74,8 +85,19 @@ void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
 void	parse_input(t_data *data, char **av);
 void	initialize_data(t_data *data);
 
+void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
+void	set_long(pthread_mutex_t *mutex, long *dest, long value);
+bool	simulation_finished(t_data *data);
+bool	get_bool(pthread_mutex_t *mutex, bool *value);
+long	get_long(pthread_mutex_t *mutex, long *value);
+
+void	wait_threads(t_data *data);
+
 void	error_msg(char *str);
-void	*safe_malloc(size_t bytes);
+void	*ft_safe_malloc(size_t bytes);
 int		ft_strlen(const char *str);
+long	ft_get_time(void);
+void	ft_usleep(long usec, t_data *data);
+
 
 #endif

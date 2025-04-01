@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:31:12 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 15:31:23 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:26:12 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	initialize_data(t_data *data)
 	i = 0;
 	data->end_simulation = false;
 	data->all_t_sync = false;
-	data->philos = safe_malloc(sizeof(t_philo) * data->n_philo);
+	data->philos = ft_safe_malloc(sizeof(t_philo) * data->n_philo);
 	safe_mutex_handle(&data->table_mutex, M_INIT);
-	data->forks = safe_malloc(sizeof(t_fork) * data->n_philo);
+	data->forks = ft_safe_malloc(sizeof(t_fork) * data->n_philo);
 	while (i < data->n_philo)
 	{
 		safe_mutex_handle(&data->forks[i].fork, M_INIT);
