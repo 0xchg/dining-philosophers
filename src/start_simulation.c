@@ -12,6 +12,28 @@
 
 #include "../inc/philo.h"
 
+static void	ft_thinking(t_philo *philo)
+{
+	write_status(THINKING, philo, 0);
+}
+
+static void ft_eat(t_philo *philo)
+{
+	safe_mutex_handle(&philo->r_fork->fork, M_LOCK);
+	write_status(TAKE_RIGHT_FORK, philo, 0);
+	safe_mutex_handle(&philo->l_fork->fork, M_LOCK);
+	write_status(TAKE_LEFT_FORK, philo, 0);
+	set_long(&philo->philo_mutex, &philo->t_last_meal, ft_get_time());
+	philo->n_meals;
+	write_status(EATING, philo, 0);
+	ft_usleep(philo->data->time_to_eat, philo->data);
+	if (philo->data->n_must_eat > 0 
+		&& philo->n_meals == philo->data->n_must_eat)
+		set_bool(&philo->philo_mutex, &philo->full, true);
+	safe_mutex_handle(&philo->r_fork->fork, M_UNLOCK);
+	safe_mutex_handle(&philo->l_fork->fork, M_UNLOCK);
+}
+
 void	*dinner_simulation(void *data)
 {
 	t_philo	*philo;
@@ -20,7 +42,12 @@ void	*dinner_simulation(void *data)
 	wait_threads(philo->data);
 	while(!simulation_finished(philo->data))
 	{
-		
+		if (philo->full)
+			break ;
+		ft_eat(philo);
+		write_status(SLEEPING, philo, 0);
+		ft_usleep(philo->time_to_sleep, philo->data);
+		ft_thinking(philo);
 	}
 	return (NULL);
 }

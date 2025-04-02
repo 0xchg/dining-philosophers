@@ -40,8 +40,8 @@ typedef enum e_status
 	EATING,
 	SLEEPING,
 	THINKING,
-	TAKE_FIRST_FORK,
-	TAKE_SECOND_FORK,
+	TAKE_RIGHT_FORK,
+	TAKE_LEFT_FORK,
 	DIED
 }		t_philo_status;
 
@@ -60,6 +60,7 @@ typedef struct s_philo
 	t_fork		*l_fork;
 	t_fork		*r_fork;
 	pthread_t	thread;
+	pthread_mutex_t	philo_mutex;
 	t_data		*data;
 }				t_philo;
 
@@ -92,6 +93,8 @@ bool	get_bool(pthread_mutex_t *mutex, bool *value);
 long	get_long(pthread_mutex_t *mutex, long *value);
 
 void	wait_threads(t_data *data);
+
+void	write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void	error_msg(char *str);
 void	*ft_safe_malloc(size_t bytes);
