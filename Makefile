@@ -6,7 +6,7 @@
 #    By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/22 00:06:28 by mchingi           #+#    #+#              #
-#    Updated: 2025/04/01 22:16:51 by mchingi          ###   ########.fr        #
+#    Updated: 2025/04/02 18:12:54 by mchingi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 TFLAGS = -pthread
 RM = @rm -f
 
-SRCS = ./src/parsing.c ./src/main.c ./src/utils.c \
-		./src/start_simulation.c ./src/mutex_utils.c \
-		./src/thread_utils.c initialize_data.c ./src/utils1.c \
-		./src/utils2.c sync_utils.c 
+SRCS = ./src/main.c ./src/parsing.c   
 
 OBJS = $(SRCS:.c=.o)
 
