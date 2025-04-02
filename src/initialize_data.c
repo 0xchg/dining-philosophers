@@ -6,23 +6,23 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:31:12 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 18:26:12 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:52:33 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	assign_forks(t_philo *philo, t_fork	*forks, int pos)
+static void	assign_forks(t_philo *philo, t_fork	*forks, int philo_pos)
 {
 	int	philo_nbr;
 
 	philo_nbr = philo->data->n_philo;
-	philo->r_fork = &forks[(philo_nbr + 1) % philo_nbr];
-	philo->l_fork = &forks[philo_nbr];
-	if (philo->id % 2)
+	philo->r_fork = &forks[(philo_pos + 1) % philo_nbr];
+	philo->l_fork = &forks[philo_pos];
+	if (philo->id % 2 == 0)
 	{
-		philo->r_fork = &forks[philo_nbr];
-		philo->l_fork = &forks[(philo_nbr + 1) % philo_nbr];
+		philo->r_fork = &forks[philo_pos];
+		philo->l_fork = &forks[(philo_pos + 1) % philo_nbr];
 	}
 }
 

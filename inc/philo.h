@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 22:07:55 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:51:54 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
 			void *data, t_type thread_type);
 void	parse_input(t_data *data, char **av);
 void	initialize_data(t_data *data);
+void	start_simulation(t_data *data);
 
 void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 void	set_long(pthread_mutex_t *mutex, long *dest, long value);
@@ -98,7 +99,7 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug);
 
 void	error_msg(char *str);
 void	*ft_safe_malloc(size_t bytes);
-int		ft_strlen(const char *str);
+size_t	ft_strlen(const char *str);
 long	ft_get_time(void);
 void	ft_usleep(long usec, t_data *data);
 

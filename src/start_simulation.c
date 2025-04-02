@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:28:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 20:33:58 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:49:13 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void ft_eat(t_philo *philo)
 	safe_mutex_handle(&philo->l_fork->fork, M_LOCK);
 	write_status(TAKE_LEFT_FORK, philo, 0);
 	set_long(&philo->philo_mutex, &philo->t_last_meal, ft_get_time());
-	philo->n_meals;
+	philo->n_meals++;
 	write_status(EATING, philo, 0);
 	ft_usleep(philo->data->time_to_eat, philo->data);
 	if (philo->data->n_must_eat > 0 
@@ -46,7 +46,7 @@ void	*dinner_simulation(void *data)
 			break ;
 		ft_eat(philo);
 		write_status(SLEEPING, philo, 0);
-		ft_usleep(philo->time_to_sleep, philo->data);
+		ft_usleep(philo->data->time_to_sleep, philo->data);
 		ft_thinking(philo);
 	}
 	return (NULL);
