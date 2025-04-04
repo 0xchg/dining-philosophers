@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:25:36 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 12:43:29 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:52:53 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,33 @@ long	ft_atol(const char *str)
 		if (*str == '+')
 			str++;
 		else
-			error_msg("Can't take negative values");
+			return(error_msg("Can't take negative values\n"));
 	}
 	if (ft_strlen(str) > 10)
-		error_msg("Values too big!");
+		return(error_msg("Values too big!\n"));
 	while (ft_isdigit(*str))
 	{
 		number = (number * 10) + (*str - 48);
 		str++;
 	}
 	if (number > INT_MAX)
-		error_msg("Values too big!");
+		return(error_msg("Values too big!\n"));
 	return (number);
 }
 
-void	parse_input(t_data *data, char **av)
+int	parse_input(t_data *data, char **av)
 {
 	data->n_philo = ft_atol(av[1]);
 	if (data->n_philo < 1)
-		error_msg("Error: Number of Philosopher must be at least 1\n");
+		return(error_msg("Error: Number of Philosopher must be at least 1\n"));
 	data->time_to_die = ft_atol(av[2]) * 1000;
 	data->time_to_eat = ft_atol(av[3]) * 1000;
 	data->time_to_sleep = ft_atol(av[4]) * 1000;
 	if (av[5])
-		data->n_must_eat = ft_atol(av[5]);
+		data->n_philo_must_eat = ft_atol(av[5]);
 	else
-		data->n_must_eat = -1;
+		data->n_philo_must_eat = -1;
+	if (data->time_to_die < 0 || data->time_to_eat < 0 || data->time_to_sleep < 0)
+		return (-1);
+	return (1);
 }
