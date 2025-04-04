@@ -6,7 +6,7 @@
 #    By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/22 00:06:28 by mchingi           #+#    #+#              #
-#    Updated: 2025/04/02 18:12:54 by mchingi          ###   ########.fr        #
+#    Updated: 2025/04/04 18:48:08 by mchingi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ CFLAGS = -Wall -Wextra -Werror
 TFLAGS = -pthread
 RM = @rm -f
 
-SRCS = ./src/main.c ./src/parsing.c   
+SRCS = ./src/main.c ./src/parsing.c \
+		./src/utils.c ./src/utils1.c ./src/utils2.c \
+		./src/initialize_simulation.c ./src/start_simulation.c
 
 OBJS = $(SRCS:.c=.o)
 
