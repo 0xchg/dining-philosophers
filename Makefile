@@ -6,14 +6,14 @@
 #    By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/22 00:06:28 by mchingi           #+#    #+#              #
-#    Updated: 2025/04/04 18:48:08 by mchingi          ###   ########.fr        #
+#    Updated: 2025/04/05 13:52:28 by mchingi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = @cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 TFLAGS = -pthread
 RM = @rm -f
 

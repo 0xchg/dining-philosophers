@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:14:44 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/04 18:57:03 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:31:48 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	main(int ac, char **av)
 			return (0);
 		if (ft_start_simulation(&data) < 0)
 			return (0);
+		ft_destroy_free(&data);
+		return(0);
 	}
 	else
 		error_msg("Error: wrong number of args. Ex.: 5 800 200 200 [5]\n");
-	// ft_destroy_free(&data);
 	return (0);
 }

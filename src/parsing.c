@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:25:36 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/04 12:52:53 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:43:45 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	parse_input(t_data *data, char **av)
 		data->n_philo_must_eat = ft_atol(av[5]);
 	else
 		data->n_philo_must_eat = -1;
-	if (data->time_to_die < 0 || data->time_to_eat < 0 || data->time_to_sleep < 0)
-		return (-1);
+	if (data->time_to_die < 60000 || data->time_to_eat < 60000 || data->time_to_sleep < 60000)
+		return (error_msg("Timestamp can not be < 60ms\n"));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:35:02 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/04 21:14:14 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 13:20:53 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int table_util(t_philo *root)
 	long	elapsed;
 
 	elapsed = ft_get_time() - root->t_last_meal;
-	if (elapsed > root->data->time_to_die)
+	if (elapsed > (root->data->time_to_die / 1000))
 	{
 		print_status(root, "died");
 		root->data->table.died = true;

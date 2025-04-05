@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 00:22:34 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 14:05:42 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int		parse_input(t_data *data, char **av);
 void	*ft_safe_malloc(size_t bytes);
 void	print_status(t_philo *root, char *str);
 void	table(t_data *data);
-// void	set_bool(mutex_t *mutex, bool *dest, bool value);
-// bool	get_bool(mutex_t *mutex, bool *src);
 int		error_msg(char *str);
 int		ft_safe_mutex_init(mutex_t *mutex, int i, mutex_t *print_mutex);
 long	ft_get_time(void);
