@@ -1,46 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 20:51:55 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 19:27:18 by mchingi          ###   ########.fr       */
+/*   Created: 2025/04/05 18:27:23 by mchingi           #+#    #+#             */
+/*   Updated: 2025/04/05 18:47:37 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	error_msg(char *str)
+void	set_bool(mutex_t *data_mutex, bool *dest, bool value)
 {
-	write(2, str, ft_strlen(str));
-	return (-1);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	counter;
-
-	counter = 0;
-	while (*str++)
-		counter++;
-	return (counter);
-}
-
-void	set_long(mutex_t *mutex, long *dest, long value)
-{
-	pthread_mutex_lock(mutex);
+	pthread_mutex_lock(data_mutex);
 	*dest = value;
-	pthread_mutex_unlock(mutex);
+	pthread_mutex_unlock(data_mutex);
 }
 
-long	get_long(mutex_t *mutex, long *src)
+bool	get_bool(mutex_t *data_mutex, bool *src)
 {
-	long	ret;
+	bool	ret;
 
-	pthread_mutex_lock(mutex);
+	pthread_mutex_lock(data_mutex);
 	ret = *src;
-	pthread_mutex_unlock(mutex);
+	pthread_mutex_unlock(data_mutex);
 	return (ret);
 }

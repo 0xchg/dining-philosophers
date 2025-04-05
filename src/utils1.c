@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:35:02 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 13:20:53 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 19:21:18 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static int table_util(t_philo *root)
 {
 	long	elapsed;
 
-	elapsed = ft_get_time() - root->t_last_meal;
+	elapsed = ft_get_time() - get_long(&root->data->data_mutex, &root->t_last_meal);
 	if (elapsed > (root->data->time_to_die / 1000))
 	{
 		print_status(root, "died");
-		root->data->table.died = true;
+		set_bool(&root->data->data_mutex, &root->data->table.died, true);
 		return (1);
 	}
 	if ((root->n_meals >= root->data->n_philo_must_eat)
@@ -50,7 +50,7 @@ static int table_util(t_philo *root)
 	if (root->data->table.n_meals == root->data->n_philo)
 	{
 		print_status(root, "All philosophers ate");
-		root->data->table.all_ate = true;
+		set_bool(&root->data->data_mutex, &root->data->table.all_ate, true);
 		return (1);
 	}
 	return (0);

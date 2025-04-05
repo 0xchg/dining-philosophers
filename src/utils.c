@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:19:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 14:06:27 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 19:14:20 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print_status(t_philo *root, char *str)
 
 	time_ms = (ft_get_time() - root->data->init_time);
 	pthread_mutex_lock(&root->data->print);
-	if (root->data->table.all_ate || root->data->table.died)
+	if (get_bool(&root->data->data_mutex, &root->data->table.all_ate) || get_bool(&root->data->data_mutex, &root->data->table.died))
 	{
 		pthread_mutex_unlock(&root->data->print);
 		return ;

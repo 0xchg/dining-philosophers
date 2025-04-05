@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 14:05:42 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 19:23:03 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ typedef struct s_table
 {
 	bool	all_ate;
 	bool	died;
-	int		n_meals;
+	long	n_meals;
 }	t_table;
 
 typedef struct s_philo
 {
 	int			id;
-	int			n_meals;
+	long			n_meals;
 	long		t_last_meal;
 	mutex_t		*right_fork;
 	mutex_t		*left_fork;
@@ -51,6 +51,7 @@ typedef struct s_data
 	long		time_to_sleep;
 	long		init_time;
 	mutex_t		*fork;
+	mutex_t		data_mutex;
 	mutex_t		print;
 	t_philo		*philo;
 	t_table		table;
@@ -70,6 +71,10 @@ int		parse_input(t_data *data, char **av);
 void	*ft_safe_malloc(size_t bytes);
 void	print_status(t_philo *root, char *str);
 void	table(t_data *data);
+void	set_long(mutex_t *data_mutex, long *dest, long value);
+long	get_long(mutex_t *data_mutex, long *src);
+void	set_bool(mutex_t *data_mutex, bool *dest, bool value);
+bool	get_bool(mutex_t *data_mutex, bool *src);
 int		error_msg(char *str);
 int		ft_safe_mutex_init(mutex_t *mutex, int i, mutex_t *print_mutex);
 long	ft_get_time(void);

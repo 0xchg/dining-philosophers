@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:28:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 13:39:10 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 19:24:57 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void ft_sleep(t_philo *philo)
 static void	ft_eat(t_philo *philo)
 {
 	print_status(philo, "is eating");
-	philo->t_last_meal = ft_get_time();
+	set_long(&philo->data->data_mutex, &philo->t_last_meal, ft_get_time());
 	usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -37,7 +37,7 @@ static int	ft_grad_forks(t_philo *philo)
 		usleep(philo->data->time_to_eat);
 		return (0);
 	}
-	if (philo->data->table.died)
+	if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
 		return (0);
 	pthread_mutex_lock(philo->right_fork);
 	print_status(philo, "has taken a fork");
@@ -49,21 +49,22 @@ void	*ft_diner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *) data;
-	philo->t_last_meal = ft_get_time();
+	set_long(&philo->data->data_mutex, &philo->t_last_meal, ft_get_time());
 	while (1)
 	{
-		if (philo->data->table.died)
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
 			break ;
 		if (!ft_grad_forks(philo))
 			break ;
-		if (philo->data->table.died)
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
 			break ;
 		ft_eat(philo);
 		if ((philo->n_meals == philo->data->n_philo_must_eat) 
-			|| (philo->data->table.died || philo->data->table.all_ate))
+			|| (get_bool(&philo->data->data_mutex, &philo->data->table.died)
+			|| get_bool(&philo->data->data_mutex, &philo->data->table.all_ate)))
 			break ;
 		ft_sleep(philo);
-		if (philo->data->table.died)
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
 			break ;
 		print_status(philo, "is thinking");
 	}
@@ -75,8 +76,8 @@ int	ft_start_simulation(t_data *data)
 	int	i;
 
 	i = -1;
-	data->table.all_ate = false;
-	data->table.died = false;
+	set_bool(&data->data_mutex, &data->table.all_ate, false);
+	set_bool(&data->data_mutex, &data->table.died, false);
 	data->init_time = ft_get_time();
 	while (++i < data->n_philo)
 	{

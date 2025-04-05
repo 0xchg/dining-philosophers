@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:31:12 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 14:05:35 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/05 18:27:05 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_initialize_print(t_data *data)
 {
 	if (pthread_mutex_init(&data->print, NULL))
 		return (error_msg("Error: Mutex (print) initialization fails\n"));
+	if (pthread_mutex_init(&data->data_mutex, NULL))
+		return (error_msg("Error: Mutex (data_mutex) initialization fails\n"));
 	return (1);
 }
 
