@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:28:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/06 15:03:32 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:12:41 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	*ft_diner_simulation(void *data)
 			break ;
 		}
 		ft_eat(philo);
-		if (dinner_checker(philo))
+		if (checker_meal_ate_dead(philo))
 			break ;
 		ft_sleep(philo);
 		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))

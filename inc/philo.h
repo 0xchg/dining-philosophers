@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/06 15:02:20 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:12:41 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	set_bool(t_mutex *data_mutex, bool *dest, bool value);
 void	inc_long(t_mutex *data_mutex, long *dest);
 bool	get_bool(t_mutex *data_mutex, bool *src);
 int		error_msg(char *str);
-int		dinner_checker(t_philo *philo);
+int		checker_meal_ate_dead(t_philo *philo);
 int		ft_safe_mutex_init(t_mutex *mutex, int i, t_mutex *print_mutex);
 long	get_long(t_mutex *data_mutex, long *src);
 long	ft_get_time(void);

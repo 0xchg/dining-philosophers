@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 18:27:23 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/06 15:05:43 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:12:41 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	inc_long(t_mutex *data_mutex, long *dest)
 	pthread_mutex_unlock(data_mutex);
 }
 
-int	dinner_checker(t_philo *philo)
+int	checker_meal_ate_dead(t_philo *philo)
 {
 	if ((get_long(&philo->data->data_mutex, &philo->n_meals)
 			== philo->data->n_philo_must_eat)
