@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:35:02 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 19:21:18 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:50:41 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,24 @@ void	ft_destroy_free(t_data *data)
 	free (data->philo);
 }
 
-static int table_util(t_philo *root)
+static int	table_util(t_philo *root)
 {
 	long	elapsed;
 
-	elapsed = ft_get_time() - get_long(&root->data->data_mutex, &root->t_last_meal);
+	elapsed = ft_get_time()
+		- get_long(&root->data->data_mutex, &root->t_last_meal);
 	if (elapsed > (root->data->time_to_die / 1000))
 	{
 		print_status(root, "died");
 		set_bool(&root->data->data_mutex, &root->data->table.died, true);
 		return (1);
 	}
-	if ((root->n_meals >= root->data->n_philo_must_eat)
+	if ((get_long(&root->data->data_mutex, &root->n_meals)
+			>= root->data->n_philo_must_eat)
 		&& root->data->n_philo_must_eat != -1)
-		root->data->table.n_meals++;
-	if (root->data->table.n_meals == root->data->n_philo)
+		inc_long(&root->data->data_mutex, &root->data->table.n_meals);
+	if (get_long(&root->data->data_mutex, &root->data->table.n_meals)
+		== root->data->n_philo)
 	{
 		print_status(root, "All philosophers ate");
 		set_bool(&root->data->data_mutex, &root->data->table.all_ate, true);
@@ -58,13 +61,13 @@ static int table_util(t_philo *root)
 
 void	table(t_data *data)
 {
-	int	i;
-	t_philo *root;
+	int		i;
+	t_philo	*root;
 
-	while(1)
+	while (1)
 	{
 		i = -1;
-		data->table.n_meals = false;
+		set_long(&data->data_mutex, &data->table.n_meals, 0);
 		while (++i < data->n_philo)
 		{
 			root = &data->philo[i];

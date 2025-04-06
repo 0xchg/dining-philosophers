@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:31:12 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 18:27:05 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:09:02 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_initialize_fork(t_data *data)
 {
 	int	i;
 
-	data->fork = ft_safe_malloc(sizeof(pthread_mutex_t) * data->n_philo);
+	data->fork = ft_safe_malloc(sizeof(t_mutex) * data->n_philo);
 	i = -1;
 	while (++i < data->n_philo)
 	{

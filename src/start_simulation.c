@@ -6,13 +6,13 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:28:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 19:24:57 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 15:03:32 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void ft_sleep(t_philo *philo)
+static void	ft_sleep(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
 	usleep(philo->data->time_to_sleep);
@@ -25,7 +25,7 @@ static void	ft_eat(t_philo *philo)
 	usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	philo->n_meals++;
+	inc_long(&philo->data->data_mutex, &philo->n_meals);
 }
 
 static int	ft_grad_forks(t_philo *philo)
@@ -35,10 +35,14 @@ static int	ft_grad_forks(t_philo *philo)
 	if (philo->data->n_philo == 1)
 	{
 		usleep(philo->data->time_to_eat);
+		pthread_mutex_unlock(philo->left_fork);
 		return (0);
 	}
 	if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
+	{
+		pthread_mutex_unlock(philo->left_fork);
 		return (0);
+	}	
 	pthread_mutex_lock(philo->right_fork);
 	print_status(philo, "has taken a fork");
 	return (1);
@@ -57,11 +61,13 @@ void	*ft_diner_simulation(void *data)
 		if (!ft_grad_forks(philo))
 			break ;
 		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
 			break ;
+		}
 		ft_eat(philo);
-		if ((philo->n_meals == philo->data->n_philo_must_eat) 
-			|| (get_bool(&philo->data->data_mutex, &philo->data->table.died)
-			|| get_bool(&philo->data->data_mutex, &philo->data->table.all_ate)))
+		if (dinner_checker(philo))
 			break ;
 		ft_sleep(philo);
 		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
@@ -82,10 +88,10 @@ int	ft_start_simulation(t_data *data)
 	while (++i < data->n_philo)
 	{
 		if (pthread_create(&data->philo[i].thread, NULL,
-			ft_diner_simulation, &data->philo[i]))
+				ft_diner_simulation, &data->philo[i]))
 		{
 			ft_destroy_free(data);
-			return(error_msg("Error: The simulation fails\n"));
+			return (error_msg("Error: The simulation fails\n"));
 		}
 		usleep(1000);
 	}

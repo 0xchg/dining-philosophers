@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:55 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 19:27:18 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:07:46 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ size_t	ft_strlen(const char *str)
 	return (counter);
 }
 
-void	set_long(mutex_t *mutex, long *dest, long value)
+void	set_long(t_mutex *mutex, long *dest, long value)
 {
 	pthread_mutex_lock(mutex);
 	*dest = value;
 	pthread_mutex_unlock(mutex);
 }
 
-long	get_long(mutex_t *mutex, long *src)
+long	get_long(t_mutex *mutex, long *src)
 {
 	long	ret;
 

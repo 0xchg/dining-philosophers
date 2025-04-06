@@ -6,13 +6,13 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:19:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/05 19:14:20 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:18:42 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	ft_safe_mutex_init(mutex_t *mutex, int i, mutex_t *print_mutex)
+int	ft_safe_mutex_init(t_mutex *mutex, int i, t_mutex *print_mutex)
 {
 	int	j;
 
@@ -40,7 +40,7 @@ void	*ft_safe_malloc(size_t bytes)
 long	ft_get_time(void)
 {
 	long			time_ms;
-	struct timeval 	time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	time_ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
@@ -53,7 +53,8 @@ void	print_status(t_philo *root, char *str)
 
 	time_ms = (ft_get_time() - root->data->init_time);
 	pthread_mutex_lock(&root->data->print);
-	if (get_bool(&root->data->data_mutex, &root->data->table.all_ate) || get_bool(&root->data->data_mutex, &root->data->table.died))
+	if (get_bool(&root->data->data_mutex, &root->data->table.all_ate)
+		|| get_bool(&root->data->data_mutex, &root->data->table.died))
 	{
 		pthread_mutex_unlock(&root->data->print);
 		return ;
