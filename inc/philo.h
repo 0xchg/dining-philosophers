@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/02 17:51:54 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:32:16 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,90 +18,68 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <stdbool.h>
-# include <errno.h>
 # include <limits.h>
+# include <stdbool.h> 
 
-typedef struct s_data	t_data;
+typedef pthread_mutex_t	t_mutex ;
 
-typedef enum e_type
+typedef struct s_table
 {
-	M_INIT,
-	M_LOCK,
-	M_UNLOCK,
-	M_DESTROY,
-	T_CREATE,
-	T_DETACH,
-	T_JOIN
-}		t_type;
-
-typedef enum e_status
-{
-	EATING,
-	SLEEPING,
-	THINKING,
-	TAKE_RIGHT_FORK,
-	TAKE_LEFT_FORK,
-	DIED
-}		t_philo_status;
-
-typedef struct s_fork
-{
-	pthread_mutex_t	fork;
-	int				fork_id;
-}					t_fork;
+	bool	all_ate;
+	bool	died;
+	long	n_meals;
+}	t_table;
 
 typedef struct s_philo
 {
-	int			id;
-	long		n_meals;
-	bool 		full;
-	long		t_last_meal;
-	t_fork		*l_fork;
-	t_fork		*r_fork;
-	pthread_t	thread;
-	pthread_mutex_t	philo_mutex;
-	t_data		*data;
-}				t_philo;
+	int				id;
+	long			n_meals;
+	long			t_last_meal;
+	t_mutex			*right_fork;
+	t_mutex			*left_fork;
+	pthread_t		thread;
+	struct s_data	*data;
+}	t_philo;
 
 typedef struct s_data
 {
-	long	n_philo;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	n_must_eat;
-	long	start_simulation;
-	bool	end_simulation;
-	bool	all_t_sync;
-	pthread_mutex_t	table_mutex;
-	pthread_mutex_t	write_mutex;
-	t_fork	*forks;
-	t_philo	*philos;
-}		t_data;
+	bool		all_threads_sync;
+	int			n_philo;
+	int			n_philo_must_eat;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		init_time;
+	t_mutex		*fork;
+	t_mutex		data_mutex;
+	t_mutex		print;
+	t_philo		*philo;
+	t_table		table;
+}	t_data;
 
-void	safe_mutex_handle(pthread_mutex_t *mutex, t_type mutex_type);
-void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
-			void *data, t_type thread_type);
-void	parse_input(t_data *data, char **av);
-void	initialize_data(t_data *data);
-void	start_simulation(t_data *data);
+void	ft_destroy_mutex_fork(t_data *data);
+void	ft_destroy_free(t_data *data);
+int		ft_initialize_print(t_data *data);
+int		ft_initialize_fork(t_data *data);
+int		ft_initialize_philo(t_data *data);
+int		ft_start_simulation(t_data *data);
 
-void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
-void	set_long(pthread_mutex_t *mutex, long *dest, long value);
-bool	simulation_finished(t_data *data);
-bool	get_bool(pthread_mutex_t *mutex, bool *value);
-long	get_long(pthread_mutex_t *mutex, long *value);
+// ---------------------- PARSING ----------------------/
+int		parse_input(t_data *data, char **av);
 
-void	wait_threads(t_data *data);
-
-void	write_status(t_philo_status status, t_philo *philo, bool debug);
-
-void	error_msg(char *str);
+// ---------------------- UTILS ------------------------/
 void	*ft_safe_malloc(size_t bytes);
-size_t	ft_strlen(const char *str);
+void	print_status(t_philo *root, char *str);
+void	table(t_data *data);
+void	set_long(t_mutex *data_mutex, long *dest, long value);
+void	set_bool(t_mutex *data_mutex, bool *dest, bool value);
+void	inc_long(t_mutex *data_mutex, long *dest);
+bool	get_bool(t_mutex *data_mutex, bool *src);
+int		error_msg(char *str);
+int		checker_meal_ate_dead(t_philo *philo);
+int		ft_safe_mutex_init(t_mutex *mutex, int i, t_mutex *print_mutex);
+long	get_long(t_mutex *data_mutex, long *src);
 long	ft_get_time(void);
-void	ft_usleep(long usec, t_data *data);
-
+size_t	ft_strlen(const char *str);
 
 #endif

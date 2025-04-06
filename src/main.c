@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:14:44 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/02 17:51:29 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:33:32 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
+	t_data	data;
 
-	data = malloc(sizeof(t_data));
 	if (ac == 5 || ac == 6)
 	{
-		parse_input(data, av);
-		initialize_data(data);
-		start_simulation(data);
-		free(data);
+		if (parse_input(&data, av) < 0)
+			return (0);
+		if (ft_initialize_print(&data) < 0 || ft_initialize_fork(&data) < 0)
+			return (0);
+		if (ft_initialize_philo(&data) < 0)
+			return (0);
+		if (ft_start_simulation(&data) < 0)
+			return (0);
+		ft_destroy_free(&data);
+		return (0);
 	}
 	else
-		error_msg("Error: wrong number of args. Ex.: 5 800 200 200 [5]");
+		error_msg("Error: wrong number of args. Ex.: 5 800 200 200 [5]\n");
 	return (0);
 }

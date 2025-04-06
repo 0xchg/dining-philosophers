@@ -6,70 +6,98 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:28:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/02 17:49:13 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:42:56 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	ft_thinking(t_philo *philo)
+static void	ft_sleep(t_philo *philo)
 {
-	write_status(THINKING, philo, 0);
+	print_status(philo, "is sleeping");
+	usleep(philo->data->time_to_sleep);
 }
 
-static void ft_eat(t_philo *philo)
+static void	ft_eat(t_philo *philo)
 {
-	safe_mutex_handle(&philo->r_fork->fork, M_LOCK);
-	write_status(TAKE_RIGHT_FORK, philo, 0);
-	safe_mutex_handle(&philo->l_fork->fork, M_LOCK);
-	write_status(TAKE_LEFT_FORK, philo, 0);
-	set_long(&philo->philo_mutex, &philo->t_last_meal, ft_get_time());
-	philo->n_meals++;
-	write_status(EATING, philo, 0);
-	ft_usleep(philo->data->time_to_eat, philo->data);
-	if (philo->data->n_must_eat > 0 
-		&& philo->n_meals == philo->data->n_must_eat)
-		set_bool(&philo->philo_mutex, &philo->full, true);
-	safe_mutex_handle(&philo->r_fork->fork, M_UNLOCK);
-	safe_mutex_handle(&philo->l_fork->fork, M_UNLOCK);
+	print_status(philo, "is eating");
+	set_long(&philo->data->data_mutex, &philo->t_last_meal, ft_get_time());
+	usleep(philo->data->time_to_eat);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	inc_long(&philo->data->data_mutex, &philo->n_meals);
 }
 
-void	*dinner_simulation(void *data)
+static int	ft_grad_forks(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	print_status(philo, "has taken a fork");
+	if (philo->data->n_philo == 1)
+	{
+		usleep(philo->data->time_to_eat);
+		pthread_mutex_unlock(philo->left_fork);
+		return (0);
+	}
+	if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		return (0);
+	}	
+	pthread_mutex_lock(philo->right_fork);
+	print_status(philo, "has taken a fork");
+	return (1);
+}
+
+void	*ft_diner_simulation(void *data)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)data;
-	wait_threads(philo->data);
-	while(!simulation_finished(philo->data))
+	philo = (t_philo *) data;
+	set_long(&philo->data->data_mutex, &philo->t_last_meal, ft_get_time());
+	while (1)
 	{
-		if (philo->full)
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
 			break ;
+		if (!ft_grad_forks(philo))
+			break ;
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
+			break ;
+		}
 		ft_eat(philo);
-		write_status(SLEEPING, philo, 0);
-		ft_usleep(philo->data->time_to_sleep, philo->data);
-		ft_thinking(philo);
+		if (checker_meal_ate_dead(philo))
+			break ;
+		ft_sleep(philo);
+		if (get_bool(&philo->data->data_mutex, &philo->data->table.died))
+			break ;
+		print_status(philo, "is thinking");
 	}
 	return (NULL);
 }
 
-void	start_simulation(t_data *data)
+int	ft_start_simulation(t_data *data)
 {
 	int	i;
 
 	i = -1;
-	if (data->n_must_eat == 0)
-		return ;
-	else if (data->n_philo == 1)
-		;
-	else
+	set_bool(&data->data_mutex, &data->table.all_ate, false);
+	set_bool(&data->data_mutex, &data->table.died, false);
+	data->init_time = ft_get_time();
+	while (++i < data->n_philo)
 	{
-		while (++i < data->n_philo)
-			safe_thread_handle(&data->philos[i].thread, dinner_simulation,
-				&data->philos[i], T_CREATE);
+		if (pthread_create(&data->philo[i].thread, NULL,
+				ft_diner_simulation, &data->philo[i]))
+		{
+			ft_destroy_free(data);
+			return (error_msg("Error: The simulation fails\n"));
+		}
+		usleep(1000);
 	}
-	data->start_simulation = ft_get_time();
-	set_bool(&data->table_mutex, &data->all_t_sync, true);
+	table(data);
 	i = -1;
 	while (++i < data->n_philo)
-		safe_thread_handle(&data->philos[i].thread, NULL, NULL, T_JOIN);
+		pthread_join(data->philo[i].thread, NULL);
+	return (1);
 }

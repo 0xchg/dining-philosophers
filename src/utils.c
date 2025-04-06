@@ -6,26 +6,25 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:19:01 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/01 20:50:33 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:18:42 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	error_msg(char *str)
+int	ft_safe_mutex_init(t_mutex *mutex, int i, t_mutex *print_mutex)
 {
-	write(2, str, ft_strlen(str));
-	exit(EXIT_FAILURE);
-}
+	int	j;
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	counter;
-
-	counter = 0;
-	while (*str++)
-		counter++;
-	return (counter);
+	j = -1;
+	if (pthread_mutex_init(&mutex[i], NULL))
+	{
+		pthread_mutex_destroy(print_mutex);
+		while (++j < i)
+			pthread_mutex_destroy(&mutex[j]);
+		return (-1);
+	}
+	return (0);
 }
 
 void	*ft_safe_malloc(size_t bytes)
@@ -41,32 +40,25 @@ void	*ft_safe_malloc(size_t bytes)
 long	ft_get_time(void)
 {
 	long			time_ms;
-	struct timeval 	time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	time_ms = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (time_ms);
 }
 
-void	ft_usleep(long usec, t_data *data)
+void	print_status(t_philo *root, char *str)
 {
-	long	start;
-	long	elapsed;
-	long	remaining;
+	long	time_ms;
 
-	start = ft_get_time();
-	while (ft_get_time() - start < usec)
+	time_ms = (ft_get_time() - root->data->init_time);
+	pthread_mutex_lock(&root->data->print);
+	if (get_bool(&root->data->data_mutex, &root->data->table.all_ate)
+		|| get_bool(&root->data->data_mutex, &root->data->table.died))
 	{
-		if (simulation_finished(data))
-			break ;
-		elapsed = ft_get_time() - start;
-		remaining = usec - elapsed;
-		if (remaining > 1e3)
-			usleep(usec / 2);
-		else
-		{
-			while (ft_get_time() - start < usec)
-				;
-		}
+		pthread_mutex_unlock(&root->data->print);
+		return ;
 	}
+	printf("%ld %d %s\n", time_ms, root->id, str);
+	pthread_mutex_unlock(&root->data->print);
 }
