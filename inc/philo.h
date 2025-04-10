@@ -6,7 +6,7 @@
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 00:03:30 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/06 17:32:16 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:41:44 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		ft_initialize_philo(t_data *data);
 int		ft_start_simulation(t_data *data);
 
 // ---------------------- PARSING ----------------------/
-int		parse_input(t_data *data, char **av);
+int		ft_input_validation(t_data *data, char **av);
 
 // ---------------------- UTILS ------------------------/
 void	*ft_safe_malloc(size_t bytes);

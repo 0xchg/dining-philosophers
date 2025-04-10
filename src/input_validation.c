@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchingi <mchingi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 03:25:36 by mchingi           #+#    #+#             */
-/*   Updated: 2025/04/06 13:18:26 by mchingi          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:42:39 by mchingi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ long	ft_atol(const char *str)
 	return (number);
 }
 
-int	parse_input(t_data *data, char **av)
+int	ft_input_validation(t_data *data, char **av)
 {
 	data->n_philo = ft_atol(av[1]);
 	if (data->n_philo < 1)
